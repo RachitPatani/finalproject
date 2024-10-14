@@ -1,0 +1,39 @@
+/* src/components/Dashboard.css */
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .user-details-table th,
+  .user-details-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #1c70b9;
+  }
+  
+  .user-details-table th {
+    color: black;
+    background-color: #98cdf1;
+    font-weight: bold;
+  }
+  
+  .user-details-table tr:nth-child(even) {
+    background-color: #7fc1de;
+  }
+  
+  .user-details-table tr:hover {
+    background-color: #f1f1f1;  
+  }
+  

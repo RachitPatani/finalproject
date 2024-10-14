@@ -1,0 +1,49 @@
+.admin-dashboard {
+    padding: 20px;
+    align-items: center;
+  }
+  
+  .add-bus-form, .edit-bus-form {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding-left: auto;
+   
+  }
+  
+  input {
+    margin-right: 10px;
+    padding: 5px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .bus-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .bus-table th, .bus-table td {
+    color: black;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .bus-table th {
+    background-color: #f2f2f2;
+  }
+  

@@ -1,0 +1,55 @@
+/* BookingForm.css */
+
+.booking-form-container {
+    max-width: 400px; /* Set a max width for the form */
+    margin: 50px auto; /* Center the form vertically and horizontally */
+    padding: 20px; /* Add padding around the form */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    background-color: #f9f9f9; /* Light background color */
+}
+
+.booking-form-container h2 {
+    text-align: center; /* Center the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.booking-form-container form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.booking-form-container input {
+    margin-bottom: 15px; /* Space below each input */
+    padding: 10px; /* Padding inside inputs */
+    border: 1px solid #ccc; /* Border around inputs */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size for inputs */
+}
+
+.booking-form-container button {
+    padding: 10px; /* Padding inside the button */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-size: 16px; /* Font size for button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.booking-form-container button:disabled {
+    background-color: #ccc; /* Gray background for disabled button */
+    cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+.booking-form-container button:hover:not(:disabled) {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.booking-form-container .error-message {
+    color: red; /* Red color for error messages */
+    text-align: center; /* Center error message */
+    margin-bottom: 15px; /* Space below error message */
+}
