@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
@@ -6,6 +6,7 @@ import './StyleElement/BookingForm.css'; // Ensure you import your CSS
 
 const BookingForm = () => {
     const { user } = useContext(AuthContext);
+    const [bus, setBus] = useState(null);
     const { busId } = useParams();
     const [booking, setBooking] = useState({
         name: '',
@@ -19,6 +20,18 @@ const BookingForm = () => {
 
     const navigate = useNavigate();  // Initialize useNavigate
 
+    useEffect(() => {
+        const fetchBusDetails = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8080/bus/${busId}`); // Adjust API endpoint as necessary
+            setBus(response.data);  // Store the bus data
+          } catch (error) {
+            console.error('Error fetching bus details:', error);
+          }
+        };
+        fetchBusDetails();
+      }, [busId]);
+
     const handleChange = (e) => {
         setBooking({
             ...booking,
@@ -30,6 +43,10 @@ const BookingForm = () => {
         e.preventDefault();
         setLoading(true); // Set loading state to true
         setError(null); // Reset error state
+        if (bus.bseats >= bus.tseats) {
+            setError('This bus is fully booked. You cannot proceed with the booking.');
+            return; // Prevent further submission if the bus is fully booked
+          }
 
         try {
             const response = await axios.post('http://localhost:8080/booking/createbooking', {
