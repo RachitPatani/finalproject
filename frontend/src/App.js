@@ -10,6 +10,7 @@ import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Dashboard from './Components/Dashboard';
 import ProtectedRoute from './Components/ProtectedRoute';
+import ProtectedAdminRoute from './Components/ProtectedAdminRoute'
 import Home from './Components/Home';
 import AdminDashboard from './Components/AdminDashboard';
 import AdminRoute from './Components/AdminRoute';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/bus-search" element={<BusSearch />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+
             <Route path="/admindashboard" element={<AdminDashboard />}/>
             
             {/* Protected Route for Dashboard */}
@@ -39,7 +41,9 @@ function App() {
             {/* Admin Routes - Using AdminRoute to check for the user role */}
             <Route path="/admin" element={
               <AdminRoute>
+                <ProtectedAdminRoute>
                 <AdminDashboard />
+                </ProtectedAdminRoute>
               </AdminRoute>
             } />
           </Routes>

@@ -3,14 +3,14 @@
     align-items: center;
   }
   
-  .add-bus-form, .edit-bus-form {
+  /* .add-bus-form, .edit-bus-form {
     display: flex;
-    align-content: center;
+    
     justify-content: center;
     margin-bottom: 30px;
     padding-left: auto;
    
-  }
+  } */
   
   input {
     margin-right: 10px;
@@ -18,13 +18,20 @@
   }
   
   button {
-    padding: 5px 10px;
-    margin-left: 5px;
-    background-color: #4CAF50;
+    padding: 10px 15px;
+    background-color: #28a745; /* Green */
     color: white;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s;
   }
+  
+  button:disabled {
+    background-color: lightgray; /* Light gray for disabled button */
+    color: darkgray; /* Dark gray text */
+    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+  }
+  
   
   button:hover {
     background-color: #45a049;
@@ -47,3 +54,41 @@
     background-color: #f2f2f2;
   }
   
+  .editbutton
+  {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+  }
+
+  .deletebutton
+  {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+  }
+
+  .form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .add-bus-form, .edit-bus-form {
+    flex: 1; /* Ensures both forms take up equal space */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .bus-list {
+    margin-top: 30px;
+  }

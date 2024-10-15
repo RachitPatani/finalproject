@@ -41,13 +41,13 @@ const BusSearch = () => {
     <div>
       <h2>Search for Buses</h2>
       <div>
-        <div style={{textAlign:"center",padding:"2px",width: "50%",	margin: "auto"}}>
+        <div style={{padding:"2px",width: "50%",	margin: "auto"}}>
 
         <label><b> Source</b></label>
-        <input type="text"  value={from} onChange={(e) => setFrom(e.target.value)} />
+        <input type="text" placeholder='Enter source' value={from} onChange={(e) => setFrom(e.target.value)} />
 
         <label><b> Destination</b></label>
-        <input type="text"  value={to} onChange={(e) => setTo(e.target.value)} />
+        <input type="text" placeholder='Enter destination'  value={to} onChange={(e) => setTo(e.target.value)} />
 
         <label><b>Date</b></label>
         <input type="date"  value={busDate} onChange={(e) => setBusDate(e.target.value)} />

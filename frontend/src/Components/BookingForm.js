@@ -45,7 +45,8 @@ const BookingForm = () => {
         setError(null); // Reset error state
         if (bus.bseats >= bus.tseats) {
             setError('This bus is fully booked. You cannot proceed with the booking.');
-            return; // Prevent further submission if the bus is fully booked
+            alert("bus is fully booked , redirecting you to  dashboard")
+            return navigate(`/dashboard`); // Prevent further submission if the bus is fully booked
           }
 
         try {
