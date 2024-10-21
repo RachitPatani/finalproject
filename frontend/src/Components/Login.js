@@ -3,6 +3,9 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import './StyleElement/Login.css'; // Import the CSS file
 
 const Login = () => {
@@ -39,29 +42,28 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <div className='login-form'>
+
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
+
+      <Box
+            component="form"
+            sx={{  '& > :not(style)': { m: 1, width: '30ch' }  }}
+            Validate
+            autoComplete="off"
+            onSubmit={handleLogin}
+            >
+            
+            <TextField id="outlined-basic" label="Email " variant="outlined" value={email} type="email" onChange={(e)=>setEmail(e.target.value)} required />
+           
+            <TextField id="outlined-basic" label="Password " variant="outlined" value={password} type="password" onChange={(e)=>setPassword(e.target.value)} required />        
+     
         {error && <div className="error">{error}</div>} {/* Display error message */}
-        <button type="submit">Login</button>
-      </form>
+        <Button variant="contained" type="submit">Login</Button>
+       
+      
+        </Box>
+            </div>
     </div>
   );
 };

@@ -14,6 +14,8 @@ import ProtectedAdminRoute from './Components/ProtectedAdminRoute'
 import Home from './Components/Home';
 import AdminDashboard from './Components/AdminDashboard';
 import AdminRoute from './Components/AdminRoute';
+import BusSearchResults from './Components/BusSearchResults';
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
             <Route path="/bus-search" element={<BusSearch />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path='/bus-search-results' element={<BusSearchResults/>}/>
 
             <Route path="/admindashboard" element={<AdminDashboard />}/>
             

@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class BusController {
@@ -57,13 +59,40 @@ public class BusController {
         return ResponseEntity.noContent().build();
     }
 
+//    @GetMapping("/bus/search")
+//    public ResponseEntity<List<BusDTO>> findBuses(
+//            @RequestParam String from,
+//            @RequestParam String to,
+//            @RequestParam LocalDate busDate) {
+//        List<BusDTO> buses = busService.findBuses(from, to, busDate);
+//        return ResponseEntity.ok(buses);
+//    }
+
     @GetMapping("/bus/search")
-    public ResponseEntity<List<BusDTO>> findBuses(
+    public List<BusDTO> searchBuses(
             @RequestParam String from,
             @RequestParam String to,
-            @RequestParam LocalDate busDate) {
+            @RequestParam LocalDate busDate,
+            @RequestParam(required = false) String filterDate,
+            @RequestParam(required = false) String sortByCost
+    )
+    {
         List<BusDTO> buses = busService.findBuses(from, to, busDate);
-        return ResponseEntity.ok(buses);
+        // Filter by Date if provided
+        if (filterDate != null && !filterDate.isEmpty()) {
+            buses = buses.stream()
+                    .filter(bus -> bus.getBusDate().equals(filterDate))
+                    .collect(Collectors.toList());
+        }
+        // Sort by cost if specified
+        if (sortByCost != null) {
+            if (sortByCost.equals("asc")) {
+                buses.sort(Comparator.comparing(BusDTO::getCost));
+            } else if (sortByCost.equals("desc")) {
+                buses.sort(Comparator.comparing(BusDTO::getCost).reversed());
+            }
+        }
+        return buses;
     }
 }
 

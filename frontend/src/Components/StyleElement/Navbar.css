@@ -1,56 +1,76 @@
-/* Navbar.css */
+/* Navbar container */
 .navbar {
-    background-color: #2c3e50; /* Dark Blue */
-    padding: 15px 20px;
-  }
+  background-color: #000000;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+ }
+ /* Navbar inner container */
+ .navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
   
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
+  margin: 0 auto;
+ }
+ /* Navbar logo */
+ .navbar-logo {
+  display: flex;
+  align-items: center;
+ }
+ .navbar-logo-image {
+  width: 70px;
+  height: 70px;
+  align-content: left;
+ }
+ /* Navbar menu */
+ .navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: large;
+ }
+ .navbar-item {
+  margin-left: 10px;
+  font-size: large;
+ }
+ .navbar-link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  align-content:center;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+ }
+ .navbar-link:hover {
+  background-color: #555;
+  border-radius: 5px;
+ }
+ /* Logout button */
+ .navbar-logout {
+  background-color: #e60000;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+ }
+ .navbar-logout:hover {
+  background-color: #cc0000;
+ }
+ /* Responsive adjustments */
+ @media (max-width: 768px) {
+  .navbar-menu {
+    flex-direction: column;
     align-items: center;
   }
-  
-  .navbar-logo {
-    color: #ecf0f1; /* Light Gray */
-    font-size: 24px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .navbar-menu {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  
   .navbar-item {
-    margin: 0 15px;
+    margin-left: 0;
+    margin-bottom: 10px;
   }
-  
-  .navbar-link {
-    color: #ecf0f1; /* Light Gray */
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s;
-  }
-  
-  .navbar-link:hover {
-    color: #3498db; /* Light Blue */
-  }
-  
-  .navbar-logout {
-    background-color: #e74c3c; /* Red */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .navbar-logout:hover {
-    background-color: #c0392b; /* Darker Red */
-  }
-  
+ }

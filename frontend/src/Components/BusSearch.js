@@ -1,107 +1,108 @@
-import React, { useState,useContext } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './StyleElement/BusSearch.css'
-import { AuthContext } from './AuthContext';
-
-const BusSearch = () => {
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
-  const [busDate, setBusDate] = useState('');
-  const [buses, setBuses] = useState([]);
-  const [error, setError] = useState(null);
-  const { user } = useContext(AuthContext);
-
-  const navigate = useNavigate(); // Use navigate hook for redirection
-
-  const handleSearch = () => {
-    axios.get('http://localhost:8080/bus/search', {
-      params: {
-        from: from,
-        to: to,
-        busDate: busDate
-      }
-    })
-      .then((response) => {
-        setBuses(response.data);
-        setError(null);
-      })
-      .catch((error) => {
-        setError('Error fetching bus details. Please try again.');
-        console.error('There was an error!', error);
-      });
-  };
-
-  const handleBook = (busId) => {
-    // Redirect to the booking form with the busId
-    navigate(`/busbooking/${busId}`);
-  };
-
-  return (
-    <div>
-      <h2>Search for Buses</h2>
-      <div>
-        <div style={{padding:"2px",width: "50%",	margin: "auto"}}>
-
-        <label><b> Source</b></label>
-        <input type="text" placeholder='Enter source' value={from} onChange={(e) => setFrom(e.target.value)} />
-
-        <label><b> Destination</b></label>
-        <input type="text" placeholder='Enter destination'  value={to} onChange={(e) => setTo(e.target.value)} />
-
-        <label><b>Date</b></label>
-        <input type="date"  value={busDate} onChange={(e) => setBusDate(e.target.value)} />
-        <p></p>
-
-        <button onClick={handleSearch}>Search Buses</button>
-      </div>
-
-        </div>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-
-      {buses.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Bus Name</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Cost</th>
-              <th>Total Seats</th>
-              <th>Booked Seats</th>
-              <th>Action</th> {/* Add a new column for the booking button */}
-            </tr>
-          </thead>
-          <tbody>
-            {buses.map((bus) => (
-              <tr key={bus.id}>
-                <td>{bus.busName}</td>
-                <td>{bus.from}</td>
-                <td>{bus.to}</td>
-                <td>{bus.busDate}</td>
-                <td>{bus.time}</td>
-                <td>{bus.cost}</td>
-                <td>{bus.tseats}</td>
-                <td>{bus.bseats}</td>
-                <td>
-                  {
-                    user?(
-
-                      <button onClick={() => handleBook(bus.id)}>Book Bus</button> 
-                    ):(<button onClick={()=>navigate('/login')}>Login</button> )
-                  }
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div>No buses found</div>
-      )}
-    </div>
-  );
-};
-
-export default BusSearch;
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./StyleElement/BusSearchResults.css";  // Include this CSS file
+function BusSearchResults() {
+ const [buses, setBuses] = useState([]);
+ const [error, setError] = useState(null);
+ const [filterDate, setFilterDate] = useState("");   // State for filtering by date
+ const [sortByCost, setSortByCost] = useState("");   // State for sorting by cost
+ const location = useLocation();
+ const navigate = useNavigate();
+ // Extract query parameters from the URL
+ const searchParams = new URLSearchParams(location.search);
+ const from = searchParams.get("from");
+ const to = searchParams.get("to");
+ const busDate = searchParams.get("busDate");
+ const fetchBuses = (filterDate, sortByCost) => {
+   axios
+     .get("http://localhost:8080/bus/search", {
+       params: {
+         from: from,
+         to: to,
+         busDate: busDate,
+         filterDate: filterDate,
+         sortByCost: sortByCost,
+       },
+     })
+     .then((response) => {
+       setBuses(response.data);
+       setError(null);
+     })
+     .catch((error) => {
+       setError("Error fetching bus details. Please try again.");
+       console.error("There was an error!", error);
+     });
+ };
+ useEffect(() => {
+   fetchBuses(filterDate, sortByCost); // Fetch buses initially
+ }, [from, to, busDate, filterDate, sortByCost]);
+ const handleBook = (busId) => {
+   navigate(`/busbooking/${busId}`);
+ };
+ const handleFilterChange = (e) => {
+   setFilterDate(e.target.value);  // Update filter date
+ };
+ const handleSortChange = (e) => {
+   setSortByCost(e.target.value);  // Update sorting option
+ };
+ return (
+<div className="bus-search-page">
+<aside className="filter-sidebar">
+<h3>Filter and Sort</h3>
+       {/* Filter by Date */}
+<div className="filter-section">
+<label>Filter by Date:</label>
+<input
+           type="date"
+           value={filterDate}
+           onChange={handleFilterChange}
+           className="filter-input"
+         />
+</div>
+       {/* Sort by Cost */}
+<div className="filter-section">
+<label>Sort by Cost:</label>
+<select
+           value={sortByCost}
+           onChange={handleSortChange}
+           className="filter-input"
+>
+<option value="">Select</option>
+<option value="asc">Low to High</option>
+<option value="desc">High to Low</option>
+</select>
+</div>
+</aside>
+<div className="bus-results-container">
+<h2>Bus Results from {from} to {to} on {busDate}</h2>
+       {error && <div style={{ color: "red" }}>{error}</div>}
+       {buses.length > 0 ? (
+<div className="bus-cards-wrapper">
+           {buses.map((bus) => (
+<div className="bus-card" key={bus.id}>
+<div className="bus-details">
+<h3 className="bus-name">{bus.busName}</h3>
+<p className="bus-route">
+                   From: {bus.from} | To: {bus.to}
+</p>
+<p className="bus-date-time">
+                   Date: {bus.busDate} | Time: {bus.time}
+</p>
+<p className="bus-seats">
+                   Total Seats: {bus.tseats} | Booked: {bus.bseats}
+</p>
+<p className="bus-price">Price: {bus.cost}</p>
+</div>
+<button className="book-button" onClick={() => handleBook(bus.id)}>Book Bus</button>
+</div>
+           ))}
+</div>
+       ) : (
+<div>No buses found for your search criteria.</div>
+       )}
+</div>
+</div>
+ );
+}
+export default BusSearchResults;

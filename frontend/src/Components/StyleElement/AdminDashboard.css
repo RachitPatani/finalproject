@@ -1,94 +1,147 @@
-.admin-dashboard {
-    padding: 20px;
-    align-items: center;
-  }
-  
-  /* .add-bus-form, .edit-bus-form {
-    display: flex;
-    
-    justify-content: center;
-    margin-bottom: 30px;
-    padding-left: auto;
-   
-  } */
-  
-  input {
-    margin-right: 10px;
-    padding: 5px;
-  }
-  
-  button {
-    padding: 10px 15px;
-    background-color: #28a745; /* Green */
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:disabled {
-    background-color: lightgray; /* Light gray for disabled button */
-    color: darkgray; /* Dark gray text */
-    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
-  }
-  
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .bus-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .bus-table th, .bus-table td {
-    color: black;
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .bus-table th {
-    background-color: #f2f2f2;
-  }
-  
-  .editbutton
-  {
-    padding: 5px 10px;
-    margin-left: 5px;
-    background-color: grey;
-    color: white;
-    border: none;
-    cursor: pointer;
-
-  }
-
-  .deletebutton
-  {
-    padding: 5px 10px;
-    margin-left: 5px;
-    background-color: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-
-  }
-
-  .form-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .add-bus-form, .edit-bus-form {
-    flex: 1; /* Ensures both forms take up equal space */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .bus-list {
-    margin-top: 30px;
-  }
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+ }
+ .admin-dashboard {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ }
+ h2, h3, h4 {
+  color: #333;
+  margin-bottom: 20px;
+ }
+ .add-button, .edit-button, .delete-button {
+  padding: 12px 24px;
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+ }
+ .add-button {
+  background-color: #28a745;
+  color: #fff;
+ }
+ .add-button:hover {
+  background-color: #218838;
+ }
+ .edit-button {
+  background-color: #007bff;
+  color: #fff;
+ }
+ .edit-button:hover {
+  background-color: #0056b3;
+ }
+ .delete-button {
+  background-color: #dc3545;
+  color: #fff;
+ }
+ .delete-button:hover {
+  background-color: #c82333;
+ }
+ .bus-list {
+  width: 100%;
+  margin-top: 30px;
+ }
+ .bus-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+ }
+ .bus-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 350px;
+  text-align: left;
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+ }
+ .bus-card:hover {
+  transform: translateY(-5px);
+ }
+ .bus-card h4 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+ }
+ .bus-card p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 10px;
+ }
+ .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+ }
+ .modal {
+  position:relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+ }
+ .modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+ }
+ .close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+ }
+ input, select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+ }
+ button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+ }
+ button[type="submit"]:hover {
+  background-color: #0056b3;
+ }
+ button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+ }

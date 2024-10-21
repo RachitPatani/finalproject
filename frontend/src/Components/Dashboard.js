@@ -14,7 +14,7 @@ const Dashboard = () => {
         const fetchUserData = async () => {
             if (!user) {
                 setLoading(false);
-                setError(<h1 style={{alignContent:'center'}}>Please log in to access your dashboard.</h1>);
+                setError(<h1 style={{textAlign:'center'}}>Please log in to access your dashboard.</h1>);
                 return;
             }
 
@@ -44,11 +44,11 @@ const Dashboard = () => {
         try {
             await axios.delete(`http://localhost:8080/booking/deletebooking/${bookingId}`); // Adjust this URL based on your API
             setBookings(bookings.filter(booking => booking.id !== bookingId));
-            alert("booking is deleted") // Remove the deleted booking from state
+            alert("Booking has been deleted"); // Remove the deleted booking from state
         } catch (error) {
             console.error('Failed to delete booking:', error);
             setError('Failed to delete booking');
-            alert("booking is not deleted")
+            alert("Booking could not be deleted");
         }
     };
 
@@ -74,42 +74,23 @@ const Dashboard = () => {
                 </div>
             )}
             {bookings.length > 0 ? (
-                <table className="user-details-table">
-                    <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Phone</th>
-                            <th>Bus Name</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Bus Date</th>
-                            <th>Time</th>
-                            <th>Cost</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {bookings.map((booking) => (
-                            <tr key={booking.id}>
-                                <td>{booking.id}</td>
-                                <td>{booking.name}</td>
-                                <td>{booking.age}</td>
-                                <td>{booking.phone}</td>
-                                <td>{booking.busName}</td>
-                                <td>{booking.from}</td>
-                                <td>{booking.to}</td>
-                                <td>{booking.busDate}</td>
-                                <td>{booking.time}</td>
-                                <td>{booking.cost}</td>
-                                <td>
-                                    <button onClick={() => deleteBooking(booking.id)}>Delete</button> {/* Delete button */}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="bookings-container">
+                    {bookings.map((booking) => (
+                        <div className="booking-card" key={booking.id}>
+                            <h4>Booking ID: {booking.id}</h4>
+                            <p><strong>Name:</strong> {booking.name}</p>
+                            <p><strong>Age:</strong> {booking.age}</p>
+                            <p><strong>Phone:</strong> {booking.phone}</p>
+                            <p><strong>Bus Name:</strong> {booking.busName}</p>
+                            <p><strong>From:</strong> {booking.from}</p>
+                            <p><strong>To:</strong> {booking.to}</p>
+                            <p><strong>Bus Date:</strong> {booking.busDate}</p>
+                            <p><strong>Time:</strong> {booking.time}</p>
+                            <p><strong>Cost:</strong> {booking.cost}</p>
+                            <button className="delete-button" onClick={() => deleteBooking(booking.id)}>Cancel</button>
+                        </div>
+                    ))}
+                </div>
             ) : (
                 <p>No bookings available</p>
             )}
