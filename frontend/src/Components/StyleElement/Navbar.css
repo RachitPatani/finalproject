@@ -1,57 +1,69 @@
 /* Navbar container */
 .navbar {
-  background-color: #000000;
+  background-color: #043480; /* Match with Home component color */
   padding: 10px 20px;
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 1000;
- }
- /* Navbar inner container */
- .navbar-container {
+}
+
+/* Navbar inner container */
+.navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
-  
   margin: 0 auto;
- }
- /* Navbar logo */
- .navbar-logo {
+}
+
+/* Navbar logo */
+.navbar-logo {
   display: flex;
   align-items: center;
- }
- .navbar-logo-image {
+}
+
+.navbar-logo-image {
   width: 70px;
   height: 70px;
-  align-content: left;
- }
- /* Navbar menu */
- .navbar-menu {
+}
+
+/* Title next to the logo */
+.navbar-title {
+  color: white;
+  font-size: 24px; /* Adjust size as needed */
+  margin-left: 10px; /* Space between logo and title */
+}
+
+/* Navbar menu */
+.navbar-menu {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
   font-size: large;
- }
- .navbar-item {
+}
+
+.navbar-item {
   margin-left: 10px;
   font-size: large;
- }
- .navbar-link {
+}
+
+.navbar-link {
   color: white;
   text-decoration: none;
   font-size: 20px;
-  align-content:center;
   padding: 10px 15px;
   transition: background-color 0.3s ease;
- }
- .navbar-link:hover {
-  background-color: #555;
+}
+
+.navbar-link:hover {
+  background-color: #2563eb; /* Slightly darker blue for hover effect */
   border-radius: 5px;
- }
- /* Logout button */
- .navbar-logout {
+}
+
+/* Logout button */
+.navbar-logout {
   background-color: #e60000;
   color: white;
   border: none;
@@ -59,18 +71,21 @@
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
- }
- .navbar-logout:hover {
+}
+
+.navbar-logout:hover {
   background-color: #cc0000;
- }
- /* Responsive adjustments */
- @media (max-width: 768px) {
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .navbar-menu {
     flex-direction: column;
     align-items: center;
   }
+  
   .navbar-item {
     margin-left: 0;
     margin-bottom: 10px;
   }
- }
+}

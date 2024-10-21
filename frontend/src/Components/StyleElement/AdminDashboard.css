@@ -1,147 +1,194 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f0f2f5;
+  background-color: #f0f4f8; /* Slightly lighter background */
   margin: 0;
   padding: 0;
- }
- .admin-dashboard {
+}
+
+.admin-dashboard {
   max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer shadow */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
- }
- h2, h3, h4 {
+  transition: all 0.3s ease;
+}
+
+h2, h3, h4 {
   color: #333;
   margin-bottom: 20px;
- }
- .add-button, .edit-button, .delete-button {
-  padding: 12px 24px;
-  margin: 5px;
+  font-weight: bold;
+}
+
+.add-button, .edit-button, .delete-button {
+  padding: 14px 30px;
+  margin: 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px; /* Softer edges */
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.add-button {
+  background-color: #60a5fa;
+  color: #fff;
+}
+
+.add-button:hover {
+  background-color: #4294f7; /* Darker shade on hover */
+}
+
+.edit-button {
+  background-color: #6c5ce7; /* A purple shade for edit */
+  color: #fff;
   width: fit-content;
- }
- .add-button {
-  background-color: #28a745;
+}
+
+.edit-button:hover {
+  background-color: #5b4adb; /* Darker purple on hover */
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red for delete */
   color: #fff;
- }
- .add-button:hover {
-  background-color: #218838;
- }
- .edit-button {
-  background-color: #007bff;
-  color: #fff;
- }
- .edit-button:hover {
-  background-color: #0056b3;
- }
- .delete-button {
-  background-color: #dc3545;
-  color: #fff;
- }
- .delete-button:hover {
-  background-color: #c82333;
- }
- .bus-list {
+  width: fit-content;
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.bus-list {
   width: 100%;
   margin-top: 30px;
- }
- .bus-cards {
+}
+
+.bus-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 20px;
- }
- .bus-card {
+}
+
+.bus-card {
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 350px;
   text-align: left;
   position: relative;
-  transition: transform 0.2s ease-in-out;
- }
- .bus-card:hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bus-card:hover {
   transform: translateY(-5px);
- }
- .bus-card h4 {
-  font-size: 1.4rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+}
+
+.bus-card h4 {
+  font-size: 1.6rem;
   color: #333;
   margin-bottom: 15px;
- }
- .bus-card p {
+}
+
+.bus-card p {
   font-size: 1.1rem;
   color: #555;
   margin-bottom: 10px;
- }
- .button-group {
+}
+
+.button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
- }
- .modal {
-  position:relative;
-  top: 0;
-  left: 0;
+}
+
+.modal {
+  position: fixed;
+  top: 50px;
+  bottom: 50px;
   width: 100%;
-  height: 80%;
-  background: rgba(0, 0, 0, 0.6);
+  height: 100%  ;
+  background: rgba(0, 0, 0, 0.6); /* Dim background */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
- }
- .modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
+}
+
+.modal-content {
+  background: #fff; /* White background for the card */
+  padding: 40px;
+  border-radius: 12px;
+  max-width: fit-content;
   width: 90%;
   position: relative;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
- }
- .close {
+  justify-content: center;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* Softer shadow for card effect */
+  border: 1px solid #e0e0e0; /* Light border for card style */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content:hover {
+  transform: translateY(-5px); /* Slight lift on hover for card-like interaction */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.close {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 20px;
   font-size: 24px;
   cursor: pointer;
- }
- input, select {
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.close:hover {
+  color: #e74c3c; /* Slight red hover effect for the close button */
+}
+
+input, select {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
   box-sizing: border-box;
- }
- button[type="submit"] {
-  background-color: #007bff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #60a5fa;
+  outline: none;
+}
+
+button[type="submit"] {
+  background-color: #60a5fa;
   color: #fff;
-  padding: 12px 24px;
+  padding: 14px 30px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: background-color 0.3s ease;
-  width: 100%;
- }
- button[type="submit"]:hover {
-  background-color: #0056b3;
- }
- button[disabled] {
+  width: fit-content;
+}
+
+button[type="submit"]:hover {
+  background-color: #4294f7;
+}
+
+button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
- }
+}

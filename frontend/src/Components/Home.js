@@ -5,15 +5,18 @@ import "./StyleElement/Home.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AuthContext } from "./AuthContext";
+
 function Home() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [busDate, setBusDate] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleSearch = () => {
     navigate(`/bus-search-results?from=${from}&to=${to}&busDate=${busDate}`);
   };
+
   const offersSettings = {
     dots: true,
     infinite: true,
@@ -33,6 +36,7 @@ function Home() {
       },
     ],
   };
+
   return (
     <main>
       <div className="intro">
@@ -89,8 +93,8 @@ function Home() {
                 <p>Valid till 01 Nov</p>
               </div>
             </div>
-            <div className="offer-card" >
-              <div className="offer-content" >
+            <div className="offer-card">
+              <div className="offer-content">
                 <p>Up to Rs 300 on Routes from Nagpur</p>
                 <p>
                   Use Code: <strong>NAGPUR300</strong>
@@ -100,20 +104,22 @@ function Home() {
             </div>
           </Slider>
         </div>
+        {/* Card Section */}
         <div className="card">
-      <h2 className="card-title">Online Bus Booking Services</h2>
-      <p className="card-content">
-        AbhiBus is India`s leading online bus ticket booking service provider. Check out budget friendly offers and save big with discount coupons to book bus tickets at the lowest price with us. You can check the bus schedules, compare prices, and find all the information you need to plan an ideal and comfortable bus or train journey.
-      </p>
-      <p className="card-content">
-        AbhiBus has simplified the online bus booking process for your travel planning. In case you need to cancel the ticket or change the dates, You can save both time and money by choosing AbhiCash as a refund option which can be used instantly. Book now!!!
-      </p>
-      <p className="card-content">
-        Browse through all your bus route options, and use our advanced smart filters to ensure a reliable and comfortable journey, tailored to your scheduled travel plans.
-      </p>
-    </div>
+          <h2 className="card-title">Online Bus Booking Services</h2>
+          <p className="card-content">
+            AbhiBus is India`s leading online bus ticket booking service provider. Check out budget-friendly offers and save big with discount coupons to book bus tickets at the lowest price with us. You can check the bus schedules, compare prices, and find all the information you need to plan an ideal and comfortable bus or train journey.
+          </p>
+          <p className="card-content">
+            AbhiBus has simplified the online bus booking process for your travel planning. In case you need to cancel the ticket or change the dates, you can save both time and money by choosing AbhiCash as a refund option, which can be used instantly. Book now!!!
+          </p>
+          <p className="card-content">
+            Browse through all your bus route options, and use our advanced smart filters to ensure a reliable and comfortable journey, tailored to your scheduled travel plans.
+          </p>
+        </div>
       </div>
     </main>
   );
 }
+
 export default Home;

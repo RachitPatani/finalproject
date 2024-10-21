@@ -4,32 +4,32 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html, body {
   height: 100%;
   width: 100%;
-  /* background-image: url('./backgroung_home.avif'); */
-  background-color: rgb(240, 129, 129);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: #f0f4ff; /* Light blue shade */
   font-family: Arial, sans-serif;
 }
+
 /* Intro section styling */
 .intro {
   text-align: center;
   padding: 40px;
 }
+
 .intro h1 {
   font-size: 3rem;
-  color: #fff;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  color: #3b82f6; /* Main blue color */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .intro p {
   font-size: 1.4rem;
-  color: #fff;
+  color: #3b82f6;
   margin-bottom: 20px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
+
 /* Search bar styling */
 .search-bar {
   display: flex;
@@ -43,6 +43,7 @@ html, body {
   max-width: 900px;
   margin: 20px auto;
 }
+
 .input-field {
   padding: 15px;
   border: 1px solid #ccc;
@@ -52,19 +53,15 @@ html, body {
   font-size: 1rem;
   transition: all 0.3s ease;
 }
+
 .input-field:focus {
-  border-color: #f04f57;
+  border-color: #3b82f6;
   outline: none;
 }
-.location-input {
-  flex: 1;
-}
-.date-input {
-  width: 160px;
-}
+
 .search-button {
   padding: 15px 30px;
-  background-color: #f04f57;
+  background-color: #3b82f6;
   color: #fff;
   border: none;
   border-radius: 30px;
@@ -72,9 +69,11 @@ html, body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .search-button:hover {
-  background-color: #e04045;
+  background-color: #2563eb;
 }
+
 /* Offers slider styling */
 .offers-slider {
   margin: auto;
@@ -82,11 +81,11 @@ html, body {
   text-align: center;
   color: #fff;
   width: 80%;
- 
 }
+
 .offer-card {
   padding: 20px;
-  background-color:beige;
+  background-color: #e0e7ff; /* Light blue shade */
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -95,16 +94,45 @@ html, body {
   justify-content: center;
   align-items: center;
   margin-right: 30px;
-  
 }
+
 .offer-content p {
   margin: 0;
   font-size: 1rem;
-  color: rgb(214, 46, 88);
+  color: #1e3a8a; /* Dark blue shade */
 }
+
 .offer-content strong {
-  color: #f04f57;
+  color: #3b82f6;
 }
+
+/* Card Section */
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  color: #333;
+  width: 80%;
+  font-family: Arial, sans-serif;
+}
+
+.card-title {
+  font-size: 1.8rem;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.card-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #333;
+}
+
 /* Media queries for smaller screens */
 @media (max-width: 768px) {
   .search-bar {
@@ -121,43 +149,12 @@ html, body {
   .offer-card {
     height: auto;
   }
-}
-
-.card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px auto;
-  color: #333;
-  width: 80%;
-  font-family: Arial, sans-serif;
-}
-
-.card-title {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.card-content {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-@media (max-width: 768px) {
   .card {
     padding: 15px;
   }
-
   .card-title {
     font-size: 1.5rem;
   }
-
   .card-content {
     font-size: 0.9rem;
   }
