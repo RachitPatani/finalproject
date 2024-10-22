@@ -7,7 +7,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
-import './StyleElement/BookingForm.css'; // Ensure you import your CSS
+import './StyleElement/BookingForm.css'; // CSS file for styles
 
 const BookingForm = () => {
     const { user } = useContext(AuthContext);
@@ -25,19 +25,19 @@ const BookingForm = () => {
     const [discount, setDiscount] = useState(null); // Discount state
     const [open, setOpen] = useState(false); // Modal state
 
-    const navigate = useNavigate();  // Initialize useNavigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBusDetails = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8080/bus/${busId}`); // Adjust API endpoint as necessary
-            setBus(response.data);  // Store the bus data
-          } catch (error) {
-            console.error('Error fetching bus details:', error);
-          }
+            try {
+                const response = await axios.get(`http://localhost:8080/bus/${busId}`);
+                setBus(response.data);
+            } catch (error) {
+                console.error('Error fetching bus details:', error);
+            }
         };
         fetchBusDetails();
-      }, [busId]);
+    }, [busId]);
 
     const handleChange = (e) => {
         setBooking({
@@ -48,13 +48,14 @@ const BookingForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Set loading state to true
-        setError(null); // Reset error state
+        setLoading(true);
+        setError(null);
+
         if (bus.bseats >= bus.tseats) {
             setError('This bus is fully booked. You cannot proceed with the booking.');
-            alert("bus is fully booked , redirecting you to  dashboard")
-            return navigate(`/dashboard`); // Prevent further submission if the bus is fully booked
-          }
+            alert("Bus is fully booked, redirecting you to dashboard");
+            return navigate(`/dashboard`);
+        }
 
         try {
             const response = await axios.post('http://localhost:8080/booking/createbooking', {
@@ -64,24 +65,20 @@ const BookingForm = () => {
                 user: { id: user.id },
                 bus: { id: busId }
             });
-            console.log('Booking successful:', response.data);
-            // Open modal on successful booking
             setBooking({ ...booking, id: response.data.id });
-            setOpen(true);
+            setOpen(true); // Open modal on successful booking
         } catch (error) {
-            setError('There was an error booking the bus. Please try again.'); // Set error message
-            console.error('There was an error booking the bus:', error);
+            setError('There was an error booking the bus. Please try again.');
         } finally {
-            setLoading(false); // Reset loading state
+            setLoading(false);
         }
     };
 
     const handleGenerateDiscount = async () => {
-        const randomDiscount = Math.floor(Math.random() * 11) + 10; // Generate random number between 10 and 20
+        const randomDiscount = Math.floor(Math.random() * 11) + 10;
         setDiscount(randomDiscount);
         try {
             await axios.put(`http://localhost:8080/booking/updateDiscount/${booking.id}`, null, { params: { discount: randomDiscount } });
-            console.log('Discount updated successfully');
         } catch (error) {
             console.error('Error updating discount:', error);
         }
@@ -94,15 +91,14 @@ const BookingForm = () => {
     };
 
     return (
-        <div className="booking-form-container"> {/* Apply a container class for styling */}
+        <div className="booking-form-container">
             <h2>Book a Bus</h2>
             <br/>
-            {error && <div className="error-message">{error}</div>} {/* Display error message */}
+            {error && <div className="error-message">{error}</div>}
 
             <Box
                 component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '100%' } }} // Adjust width to 100%
-                Validate
+                sx={{ '& > :not(style)': { m: 1, width: '100%' } }}
                 autoComplete="off"
                 onSubmit={handleSubmit}
             >
@@ -115,6 +111,8 @@ const BookingForm = () => {
                     type="text"
                     onChange={handleChange}
                     required
+                    error={booking.name === ''}
+                    helperText={booking.name === '' ? 'Name is required' : ''}
                 />
                 <TextField
                     id="age"
@@ -125,6 +123,8 @@ const BookingForm = () => {
                     type="number"
                     onChange={handleChange}
                     required
+                    error={booking.age < 18}
+                    helperText={booking.age < 18 ? 'You must be at least 18' : ''}
                 />
                 <TextField
                     id="phone"
@@ -135,13 +135,14 @@ const BookingForm = () => {
                     type="text"
                     onChange={handleChange}
                     required
+                    error={booking.phone.length < 10 || booking.phone.length > 15}
+                    helperText={booking.phone.length < 10 || booking.phone.length > 15 ? 'Invalid phone number' : ''}
                 />
                 <Button variant="contained" type="submit" disabled={loading}>
                     {loading ? 'Booking...' : 'Book Bus'}
                 </Button>
             </Box>
 
-            {/* Modal for discount */}
             <Modal open={open} onClose={handleClose}>
                 <Box className="modal-box">
                     <Typography variant="h6" component="h2">

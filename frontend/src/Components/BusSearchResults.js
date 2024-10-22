@@ -7,27 +7,29 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal'; // Import Modal from MUI
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext"; // Import AuthContext
+import { AuthContext } from "./AuthContext"; 
 import axios from "axios";
-import "./StyleElement/BusSearchResults.css"; // Include this CSS file
+import "./StyleElement/BusSearchResults.css"; 
 
 function BusSearchResults() {
   const [open, setOpen] = useState(false);
   const [buses, setBuses] = useState([]);
   const [error, setError] = useState(null);
-  const [filterDate, setFilterDate] = useState(""); // State for filtering by date
-  const [sortByCost, setSortByCost] = useState(""); // State for sorting by cost
-  const [from, setFrom] = useState(""); // State for from location
-  const [to, setTo] = useState(""); // State for to location
-  const [busDate, setBusDate] = useState(""); // State for bus date
+  const [filterDate, setFilterDate] = useState(""); 
+  const [sortByCost, setSortByCost] = useState(""); 
+  const [sortBySeats, setSortBySeats] = useState(""); // State for sorting by seat availability
+  const [from, setFrom] = useState(""); 
+  const [to, setTo] = useState(""); 
+  const [busDate, setBusDate] = useState(""); 
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // Consume AuthContext
-  const { isAuthenticated } = useContext(AuthContext); // Get isAuthenticated state
 
-  // Extract query parameters from the URL
+  const [fullBusModalOpen, setFullBusModalOpen] = useState(false); // State for full bus modal
+
+  const { isAuthenticated } = useContext(AuthContext); 
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setFrom(searchParams.get("from") || "");
@@ -35,7 +37,7 @@ function BusSearchResults() {
     setBusDate(searchParams.get("busDate") || "");
   }, [location.search]);
 
-  const fetchBuses = (filterDate, sortByCost) => {
+  const fetchBuses = (filterDate, sortByCost, sortBySeats) => {
     axios
       .get("http://localhost:8080/bus/search", {
         params: {
@@ -47,29 +49,46 @@ function BusSearchResults() {
         },
       })
       .then((response) => {
-        setBuses(response.data);
+        let sortedBuses = response.data;
+
+        // Sort buses based on seat availability
+        if (sortBySeats === "most") {
+          sortedBuses = sortedBuses.sort((a, b) => (b.tseats - b.bseats) - (a.tseats - a.bseats)); // Most available seats
+        } else if (sortBySeats === "least") {
+          sortedBuses = sortedBuses.sort((a, b) => (a.tseats - a.bseats) - (b.tseats - b.bseats)); // Fewest available seats
+        }
+
+        setBuses(sortedBuses);
         setError(null);
       })
       .catch((error) => {
-        // setError("Error fetching bus details. Please try again.");
+        setError("Error fetching bus details. Please try again.");
         console.error("There was an error!", error);
       });
   };
 
   useEffect(() => {
-    fetchBuses(filterDate, sortByCost); // Fetch buses initially
-  }, [from, to, busDate, filterDate, sortByCost]);
+    fetchBuses(filterDate, sortByCost, sortBySeats);
+  }, [from, to, busDate, filterDate, sortByCost, sortBySeats]);
 
-  const handleBook = (busId) => {
-    if (!isAuthenticated) {
-      navigate('/login');
+  const handleBook = (bus) => {
+    if (bus.bseats >= bus.tseats) {
+      setFullBusModalOpen(true); // Open modal if the bus is fully booked
     } else {
-      navigate(`/busbooking/${busId}`);
+      if (!isAuthenticated) {
+        navigate('/login');
+      } else {
+        navigate(`/busbooking/${bus.id}`);
+      }
     }
   };
 
   const handleSortChange = (e, value) => {
     setSortByCost(value);
+  };
+
+  const handleSeatSortChange = (value) => {
+    setSortBySeats(value);
   };
 
   const toggleDrawer = (newOpen) => (event) => {
@@ -102,11 +121,26 @@ function BusSearchResults() {
           <ListItemText primary="High to Low" />
         </ListItemButton>
       </ListItem>
+      <Divider />
+      
+      <Typography variant="h5" gutterBottom>
+        Sort By Seats
+      </Typography>
+      <ListItem key="Most Available Seats" disablePadding>
+        <ListItemButton onClick={() => handleSeatSortChange('most')}>
+          <ListItemText primary="Most Available Seats" />
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+      <ListItem key="Fewest Available Seats" disablePadding>
+        <ListItemButton onClick={() => handleSeatSortChange('least')}>
+          <ListItemText primary="Fewest Available Seats" />
+        </ListItemButton>
+      </ListItem>
     </Box>
   );
 
   const handleSearch = () => {
-    // Update the URL to reflect new search parameters
     const newSearchParams = new URLSearchParams();
     newSearchParams.append("from", from);
     newSearchParams.append("to", to);
@@ -117,18 +151,9 @@ function BusSearchResults() {
   return (
     <div className="bus-search-page">
       <div className="bus-results-container">
-        <h2>
-          Bus Results
-          <br />
-          <div className="filter-button">
-          <Button  onClick={toggleDrawer(true)}>Filters</Button>
-          </div>
-          <Drawer open={open} onClose={toggleDrawer(false)}>
-            {DrawerList}
-          </Drawer>
-        </h2>
-        
-        {/* Search Inputs */}
+        <h2>Bus Results</h2>
+        <br />
+
         <div className="search-bar">
           <input
             type="text"
@@ -150,11 +175,17 @@ function BusSearchResults() {
           <button onClick={handleSearch}>Modify</button>
         </div>
 
-        {error && <div style={{ color: "red" }}>{error}</div>}
+        <div className="filter-button" style={{width:"fit-content",marginLeft:"160px"}}>
+          <Button onClick={toggleDrawer(true)}>Filters</Button>
+        </div>
+        <Drawer open={open} onClose={toggleDrawer(false)}>
+          {DrawerList}
+        </Drawer>
+
         {buses.length > 0 ? (
           <div className="bus-cards-wrapper">
             {buses.map((bus) => (
-              <div className="bus-card" key={bus.id}>
+              <div className="bus-new-card" key={bus.id}>
                 <div className="bus-details">
                   <h3 className="bus-name">{bus.busName.toUpperCase()}</h3>
                   <div className="bus-info">
@@ -166,14 +197,15 @@ function BusSearchResults() {
                     </p>
                     <p className="bus-seats">
                       <strong>Total Seats:</strong> {bus.tseats} | <strong>Booked:</strong> {bus.bseats}
+                      |<strong>Available:</strong> {bus.tseats - bus.bseats}
                     </p>
                     <p className="bus-price"><strong>Price:</strong> {bus.cost}</p>
                   </div>
                 </div>
                 <span>
                   <button
-                    className="book-button"
-                    onClick={() => handleBook(bus.id)}
+                    className="book-bus-button"
+                    onClick={() => handleBook(bus)}
                   >
                     Book Bus
                   </button>
@@ -184,6 +216,21 @@ function BusSearchResults() {
         ) : (
           <div>No buses found for your search criteria.</div>
         )}
+
+        {/* Modal for full bus warning */}
+        <Modal open={fullBusModalOpen} onClose={() => setFullBusModalOpen(false)}>
+          <Box className="modal-box">
+            <Typography variant="h6" component="h2">
+              Bus Full
+            </Typography>
+            <Typography sx={{ mt: 2 }}>
+              Sorry, this bus is fully booked. Please select another bus.
+            </Typography>
+            <Button variant="contained" onClick={() => setFullBusModalOpen(false)} sx={{ mt: 2 }}>
+              Close
+            </Button>
+          </Box>
+        </Modal>
       </div>
     </div>
   );
