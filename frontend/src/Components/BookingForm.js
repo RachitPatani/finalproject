@@ -1,5 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import './StyleElement/BookingForm.css'; // Ensure you import your CSS
@@ -17,6 +22,8 @@ const BookingForm = () => {
     });
     const [loading, setLoading] = useState(false); // Loading state
     const [error, setError] = useState(null); // Error state
+    const [discount, setDiscount] = useState(null); // Discount state
+    const [open, setOpen] = useState(false); // Modal state
 
     const navigate = useNavigate();  // Initialize useNavigate
 
@@ -58,7 +65,9 @@ const BookingForm = () => {
                 bus: { id: busId }
             });
             console.log('Booking successful:', response.data);
-            navigate(`/dashboard`);
+            // Open modal on successful booking
+            setBooking({ ...booking, id: response.data.id });
+            setOpen(true);
         } catch (error) {
             setError('There was an error booking the bus. Please try again.'); // Set error message
             console.error('There was an error booking the bus:', error);
@@ -67,39 +76,93 @@ const BookingForm = () => {
         }
     };
 
+    const handleGenerateDiscount = async () => {
+        const randomDiscount = Math.floor(Math.random() * 11) + 10; // Generate random number between 10 and 20
+        setDiscount(randomDiscount);
+        try {
+            await axios.put(`http://localhost:8080/booking/updateDiscount/${booking.id}`, null, { params: { discount: randomDiscount } });
+            console.log('Discount updated successfully');
+        } catch (error) {
+            console.error('Error updating discount:', error);
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setDiscount(null);
+        navigate(`/dashboard`);
+    };
+
     return (
         <div className="booking-form-container"> {/* Apply a container class for styling */}
             <h2>Book a Bus</h2>
+            <br/>
             {error && <div className="error-message">{error}</div>} {/* Display error message */}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
+
+            <Box
+                component="form"
+                sx={{ '& > :not(style)': { m: 1, width: '100%' } }} // Adjust width to 100%
+                Validate
+                autoComplete="off"
+                onSubmit={handleSubmit}
+            >
+                <TextField
+                    id="name"
                     name="name"
-                    placeholder="Your Name"
+                    label="Name"
+                    variant="outlined"
                     value={booking.name}
+                    type="text"
                     onChange={handleChange}
-                    required // Required field
+                    required
                 />
-                <input
-                    type="number"
+                <TextField
+                    id="age"
                     name="age"
-                    placeholder="Your Age"
+                    label="Age"
+                    variant="outlined"
                     value={booking.age}
-                    onChange={handleChange}
-                    required // Required field
-                />
-                <input
                     type="number"
-                    name="phone"
-                    placeholder="Your Phone"
-                    value={booking.phone}
                     onChange={handleChange}
-                    required // Required field
+                    required
                 />
-                <button type="submit" disabled={loading}> {/* Disable button when loading */}
+                <TextField
+                    id="phone"
+                    name="phone"
+                    label="Phone"
+                    variant="outlined"
+                    value={booking.phone}
+                    type="text"
+                    onChange={handleChange}
+                    required
+                />
+                <Button variant="contained" type="submit" disabled={loading}>
                     {loading ? 'Booking...' : 'Book Bus'}
-                </button>
-            </form>
+                </Button>
+            </Box>
+
+            {/* Modal for discount */}
+            <Modal open={open} onClose={handleClose}>
+                <Box className="modal-box">
+                    <Typography variant="h6" component="h2">
+                        Booking Successful!
+                    </Typography>
+                    <Typography sx={{ mt: 2 }}>
+                        Click the button below to generate a random discount percentage between 10% and 20%.
+                    </Typography>
+                    <Button variant="contained" onClick={handleGenerateDiscount} sx={{ mt: 2 }}>
+                        Generate Discount
+                    </Button>
+                    {discount !== null && (
+                        <Typography sx={{ mt: 2 }}>
+                            You got a {discount}% discount on your ticket price!
+                        </Typography>
+                    )}
+                    <Button variant="contained" onClick={handleClose} sx={{ mt: 2 }}>
+                        Close
+                    </Button>
+                </Box>
+            </Modal>
         </div>
     );
 };

@@ -135,27 +135,96 @@ html, body {
 
 /* Media queries for smaller screens */
 @media (max-width: 768px) {
+  .intro h1 {
+    font-size: 2.5rem;
+  }
+
+  .intro p {
+    font-size: 1.2rem;
+  }
+
   .search-bar {
     flex-direction: column;
-    padding: 20px;
+    padding: 15px;
   }
+
   .input-field {
     width: 100%;
     margin-bottom: 15px;
   }
+
   .search-button {
     width: 100%;
   }
-  .offer-card {
-    height: auto;
+
+  .offers-slider {
+    width: 100%;
+    padding: 10px;
   }
+
+  .offer-card {
+    margin: 20px 0;
+    width: 90%;
+  }
+
   .card {
     padding: 15px;
+    width: 90%;
   }
+
   .card-title {
     font-size: 1.5rem;
   }
+
   .card-content {
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro h1 {
+    font-size: 2rem;
+  }
+
+  .intro p {
+    font-size: 1rem;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .input-field {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .search-button {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .offers-slider {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .offer-card {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .card {
+    padding: 10px;
+    width: 100%;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+  }
+
+  .card-content {
+    font-size: 0.8rem;
   }
 }

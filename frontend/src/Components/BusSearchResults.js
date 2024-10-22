@@ -84,9 +84,10 @@ function BusSearchResults() {
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom style={{textAlign:'center'}}>
         Filters
       </Typography>
+      <Divider />
       <Typography variant="h5" gutterBottom>
         Sort By Cost
       </Typography>
@@ -119,7 +120,9 @@ function BusSearchResults() {
         <h2>
           Bus Results
           <br />
-          <Button style={{ width: "2px" }} onClick={toggleDrawer(true)}>Filters</Button>
+          <div className="filter-button">
+          <Button  onClick={toggleDrawer(true)}>Filters</Button>
+          </div>
           <Drawer open={open} onClose={toggleDrawer(false)}>
             {DrawerList}
           </Drawer>

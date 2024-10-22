@@ -40,7 +40,7 @@ function Home() {
   return (
     <main>
       <div className="intro">
-        <h1>SPARTAN BUSES</h1>
+        <h1>Spartan Buses</h1>
         <p>Welcome to our bus booking system</p>
         {/* Search bar */}
         <div className="search-bar">
@@ -108,12 +108,10 @@ function Home() {
         <div className="card">
           <h2 className="card-title">Online Bus Booking Services</h2>
           <p className="card-content">
-            AbhiBus is India`s leading online bus ticket booking service provider. Check out budget-friendly offers and save big with discount coupons to book bus tickets at the lowest price with us. You can check the bus schedules, compare prices, and find all the information you need to plan an ideal and comfortable bus or train journey.
-          </p>
-          <p className="card-content">
-            AbhiBus has simplified the online bus booking process for your travel planning. In case you need to cancel the ticket or change the dates, you can save both time and money by choosing AbhiCash as a refund option, which can be used instantly. Book now!!!
-          </p>
-          <p className="card-content">
+            Spartan Bus is India`s leading online bus ticket booking service provider. Check out budget-friendly offers and save big with discount coupons to book bus tickets at the lowest price with us. You can check the bus schedules, compare prices, and find all the information you need to plan an ideal and comfortable bus or train journey.
+          
+            Spartan Bus has simplified the online bus booking process for your travel planning. In case you need to cancel the ticket or change the dates, you can save both time and money by choosing AbhiCash as a refund option, which can be used instantly. Book now!!!
+         
             Browse through all your bus route options, and use our advanced smart filters to ensure a reliable and comfortable journey, tailored to your scheduled travel plans.
           </p>
         </div>

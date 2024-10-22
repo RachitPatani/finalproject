@@ -6,6 +6,7 @@ import com.bus.booking.bus_booking.entity.Bus;
 import com.bus.booking.bus_booking.repo.BookingRepository;
 import com.bus.booking.bus_booking.repo.BusRepository;
 import com.bus.booking.bus_booking.service.interaface.BookingService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -103,5 +104,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDTO> getBookingsWithBusDetailsByUserId(int userId) {
         return bookingRepository.findBookingsWithBusDetailsByUserId(userId);
+    }
+
+    public Booking updateBookingDiscount(int bookingId, int discount) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            booking.setDiscount(discount);
+            return bookingRepository.save(booking);
+        }
+        throw new EntityNotFoundException("Booking not found with id " + bookingId);
     }
 }

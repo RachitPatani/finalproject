@@ -17,7 +17,7 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     List<Booking> findAllBookingsWithUsers();
     List<Booking>getUserById(long uid);
 
-    @Query("SELECT new com.bus.booking.bus_booking.dto.BookingDTO(b.id, b.name, b.age, b.phone, bs.id, bs.busName, bs.from, bs.to, bs.busDate,bs.time, bs.cost) " +
+    @Query("SELECT new com.bus.booking.bus_booking.dto.BookingDTO(b.id, b.name, b.age, b.phone,b.discount, bs.id, bs.busName, bs.from, bs.to, bs.busDate,bs.time, bs.cost) " +
             "FROM Booking b INNER JOIN b.bus bs WHERE b.user.id = :userId")
     List<BookingDTO> findBookingsWithBusDetailsByUserId(int userId);
 

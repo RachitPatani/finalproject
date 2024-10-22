@@ -16,6 +16,8 @@ public class BookingDTO {
     private int age;
     private long phone;
     private int busId;
+    private int discount;
+
     private String busName;
     private String to;
     private String from;
@@ -23,7 +25,7 @@ public class BookingDTO {
     private LocalDate busDate;
     private float cost;
 
-    public BookingDTO(int id, String name, int age, long phone, int busId, String busName, String from, String to, LocalDate busDate, String time,float cost) {
+    public BookingDTO(int id, String name, int age, long phone, int discount, int busId, String busName, String from, String to, LocalDate busDate, String time,float cost) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -35,6 +37,7 @@ public class BookingDTO {
         this.busDate = busDate;
         this.cost = cost;
         this.time = time;
+        this.discount=discount;
     }
 
 }

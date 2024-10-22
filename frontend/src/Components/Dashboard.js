@@ -40,6 +40,7 @@ const Dashboard = () => {
 
         fetchUserData();
     }, [user]); // Dependency array includes user
+
     const deleteBooking = async (bookingId) => {
         try {
             await axios.delete(`http://localhost:8080/booking/deletebooking/${bookingId}`); // Adjust this URL based on your API
@@ -75,21 +76,29 @@ const Dashboard = () => {
             )}
             {bookings.length > 0 ? (
                 <div className="bookings-container">
-                    {bookings.map((booking) => (
-                        <div className="booking-card" key={booking.id}>
-                            <h4>Booking ID: {booking.id}</h4>
-                            <p><strong>Name:</strong> {booking.name}</p>
-                            <p><strong>Age:</strong> {booking.age}</p>
-                            <p><strong>Phone:</strong> {booking.phone}</p>
-                            <p><strong>Bus Name:</strong> {booking.busName}</p>
-                            <p><strong>From:</strong> {booking.from}</p>
-                            <p><strong>To:</strong> {booking.to}</p>
-                            <p><strong>Bus Date:</strong> {booking.busDate}</p>
-                            <p><strong>Time:</strong> {booking.time}</p>
-                            <p><strong>Cost:</strong> {booking.cost}</p>
-                            <button className="delete-button" onClick={() => deleteBooking(booking.id)}>Cancel</button>
-                        </div>
-                    ))}
+                    {bookings.map((booking) => {
+                        const discountedPrice = booking.cost - (booking.cost * (booking.discount / 100));
+                        return (
+                            <div className="booking-card" key={booking.id}>
+                                <h4>Booking ID: {booking.id}</h4>
+                                <p><strong>Name:</strong> {booking.name}</p>
+                                <p><strong>Age:</strong> {booking.age}</p>
+                                <p><strong>Phone:</strong> {booking.phone}</p>
+                                <p><strong>Bus Name:</strong> {booking.busName}</p>
+                                <p><strong>From:</strong> {booking.from}</p>
+                                <p><strong>To:</strong> {booking.to}</p>
+                                <p><strong>Bus Date:</strong> {booking.busDate}</p>
+                                <p><strong>Time:</strong> {booking.time}</p>
+                                <p><strong>Original Cost:</strong> ${booking.cost.toFixed(2)}</p>
+                                <p><strong>Discount:</strong> {booking.discount}%</p>
+                                <p><strong>Discounted Price:</strong> ₹{discountedPrice.toFixed(2)}</p>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <button className="delete-button" onClick={() => deleteBooking(booking.id)}>Cancel</button>
+                            </div>
+                        );
+                    })}
                 </div>
             ) : (
                 <p>No bookings available</p>

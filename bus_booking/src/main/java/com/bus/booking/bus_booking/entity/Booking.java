@@ -18,6 +18,8 @@ public class Booking {
     private String name;
     private int age;
     private  long phone;
+    private int discount;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")

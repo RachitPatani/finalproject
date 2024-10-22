@@ -1,3 +1,4 @@
+/* Reset some basic elements */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f0f4f8; /* Slightly lighter background */
@@ -113,10 +114,10 @@ h2, h3, h4 {
 
 .modal {
   position: fixed;
-  top: 50px;
-  bottom: 50px;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%  ;
+  height: 100%;
   background: rgba(0, 0, 0, 0.6); /* Dim background */
   display: flex;
   align-items: center;
@@ -128,8 +129,10 @@ h2, h3, h4 {
   background: #fff; /* White background for the card */
   padding: 40px;
   border-radius: 12px;
-  max-width: fit-content;
-  width: 90%;
+  max-width: 90%;
+  max-height: 80%; /* Limit the height of the modal content */
+  overflow-y: auto; /* Allow vertical scrolling */
+  width: fit-content;
   position: relative;
   justify-content: center;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* Softer shadow for card effect */

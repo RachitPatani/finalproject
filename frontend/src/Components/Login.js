@@ -42,28 +42,20 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <div className='login-form'>
-
-      <h2>Login</h2>
-
-      <Box
-            component="form"
-            sx={{  '& > :not(style)': { m: 1, width: '30ch' }  }}
-            Validate
-            autoComplete="off"
-            onSubmit={handleLogin}
-            >
-            
-            <TextField id="outlined-basic" label="Email " variant="outlined" value={email} type="email" onChange={(e)=>setEmail(e.target.value)} required />
-           
-            <TextField id="outlined-basic" label="Password " variant="outlined" value={password} type="password" onChange={(e)=>setPassword(e.target.value)} required />        
-     
-        {error && <div className="error">{error}</div>} {/* Display error message */}
-        <Button variant="contained" type="submit">Login</Button>
-       
-      
+      <div className="login-form">
+        <h2>Login</h2>
+        <Box
+          component="form"
+          Validate
+          autoComplete="off"
+          onSubmit={handleLogin}
+        >
+          <TextField id="outlined-basic" label="Email" variant="outlined" value={email} type="email" onChange={(e) => setEmail(e.target.value)} required />
+          <TextField id="outlined-basic" label="Password" variant="outlined" value={password} type="password" onChange={(e) => setPassword(e.target.value)} required />
+          {error && <div className="error">{error}</div>} {/* Display error message */}
+          <Button variant="contained" type="submit">Login</Button>
         </Box>
-            </div>
+      </div>
     </div>
   );
 };

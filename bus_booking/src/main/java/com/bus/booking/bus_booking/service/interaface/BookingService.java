@@ -10,13 +10,24 @@ import java.util.Optional;
 public interface BookingService {
 
     Booking saveBooking(Booking booking);
+
     Optional<Booking> getBookingById(int id);
+
     List<Booking> getAllBookings();
+
     Booking updateBooking(int id, Booking bookingDetails);
+
     void deleteBooking(int id);
+
     List<Booking> findBookingsByUserId(int userId);
+
     List<Booking> findBookingsByBusId(int busId);
+
     List<Booking> getUserById(int userId);
+
     public List<Booking> getAllBookingsWithUsers();
+
     public List<BookingDTO> getBookingsWithBusDetailsByUserId(int userId);
+
+    public Booking updateBookingDiscount(int bookingId, int discount);
 }

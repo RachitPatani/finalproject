@@ -77,4 +77,10 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
+    @PutMapping("/updateDiscount/{bookingId}")
+    public ResponseEntity<Booking> updateDiscount(@PathVariable int bookingId, @RequestParam int discount) {
+        Booking updatedBooking = bookingService.updateBookingDiscount(bookingId, discount);
+        return ResponseEntity.ok(updatedBooking);
+    }
+
 }
