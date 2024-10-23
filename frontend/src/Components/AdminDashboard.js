@@ -3,6 +3,7 @@ import axios from "axios";
 import "./StyleElement/AdminDashboard.css";
 import { AuthContext } from "./AuthContext";
 const AdminDashboard = () => {
+  
   const { user } = useContext(AuthContext);
   const [buses, setBuses] = useState([]);
   const [newBus, setNewBus] = useState({
@@ -21,6 +22,7 @@ const AdminDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+
   useEffect(() => {
     const fetchBuses = async () => {
       if (!user) {
@@ -170,6 +172,7 @@ const AdminDashboard = () => {
                 type="date"
                 name="busDate"
                 placeholder="Bus Date"
+                min={today}
                 value={newBus.busDate}
                 onChange={handleInputChange}
                 required
@@ -263,7 +266,7 @@ const AdminDashboard = () => {
                 placeholder="From"
                 value={editBus.from}
                 onChange={(e) =>
-                  setEditBus({ ...editBus, from: e.target.value })
+                  setEditBus({ ...editBus, from: e.target.value.toLowerCase() })
                 }
                 required
               />
@@ -272,7 +275,7 @@ const AdminDashboard = () => {
                 name="to"
                 placeholder="To"
                 value={editBus.to}
-                onChange={(e) => setEditBus({ ...editBus, to: e.target.value })}
+                onChange={(e) => setEditBus({ ...editBus, to: e.target.value.toLowerCase() })}
                 required
               />
               <input
@@ -289,6 +292,7 @@ const AdminDashboard = () => {
                 type="date"
                 name="busDate"
                 placeholder="Bus Date"
+                min={today}
                 value={editBus.busDate}
                 onChange={(e) =>
                   setEditBus({ ...editBus, busDate: e.target.value })

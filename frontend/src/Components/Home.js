@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { AuthContext } from "./AuthContext";
 
 function Home() {
+  const today = new Date().toISOString().split('T')[0];
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [busDate, setBusDate] = useState("");
@@ -49,7 +50,7 @@ function Home() {
             placeholder="From"
             className="input-field location-input"
             value={from}
-            onChange={(e) => setFrom(e.target.value)}
+            onChange={(e) => setFrom(e.target.value.toLowerCase())}
             required
           />
           <input
@@ -57,13 +58,14 @@ function Home() {
             placeholder="To"
             className="input-field location-input"
             value={to}
-            onChange={(e) => setTo(e.target.value)}
+            onChange={(e) => setTo(e.target.value.toLowerCase())}
             required
           />
           <input
             type="date"
             className="input-field date-input"
             value={busDate}
+            min={today}
             onChange={(e) => setBusDate(e.target.value)}
             required
           />
@@ -72,9 +74,9 @@ function Home() {
           </button>
         </div>
         {/* Trending Offers Section */}
+          <h2 style={{textAlign:'center'}}>Trending Offers</h2>
         <div className="offers-slider">
-          <h2>Trending Offers</h2>
-          <Slider {...offersSettings}>
+          <Slider className="slider-container" {...offersSettings}>
             <div className="offer-card">
               <div className="offer-content">
                 <p>Up to Rs 300 on Chartered Bus</p>

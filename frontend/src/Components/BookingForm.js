@@ -13,7 +13,8 @@ const BookingForm = () => {
     const { user } = useContext(AuthContext);
     const [bus, setBus] = useState(null);
     const { busId } = useParams();
-    const [booking, setBooking] = useState({
+    const [bookings, setBookings] = useState([]);
+    const [currentBooking, setCurrentBooking] = useState({
         name: '',
         age: '',
         phone: '',
@@ -40,10 +41,33 @@ const BookingForm = () => {
     }, [busId]);
 
     const handleChange = (e) => {
-        setBooking({
-            ...booking,
+        setCurrentBooking({
+            ...currentBooking,
             [e.target.name]: e.target.value
         });
+    };
+
+    const addBooking = () => {
+        if (bookings.length >= 4) {
+            setError('You can only add up to 4 bookings at a time.');
+            return;
+        }
+        setBookings([...bookings, {
+            ...currentBooking,
+            user: { id: user.id },
+            bus: { id: busId }
+        }]);
+        setCurrentBooking({
+            name: '',
+            age: '',
+            phone: '',
+            userId: user.id,
+            busId: busId
+        });
+    };
+
+    const removeBooking = (index) => {
+        setBookings(bookings.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -54,20 +78,22 @@ const BookingForm = () => {
         if (bus.bseats >= bus.tseats) {
             setError('This bus is fully booked. You cannot proceed with the booking.');
             alert("Bus is fully booked, redirecting you to dashboard");
+            setLoading(false);
             return navigate(`/dashboard`);
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/booking/createbooking', {
-                name: booking.name,
-                age: booking.age,
-                phone: booking.phone,
-                user: { id: user.id },
-                bus: { id: busId }
-            });
-            setBooking({ ...booking, id: response.data.id });
+            // Send the array of bookings directly to the backend
+            const response = await axios.post('http://localhost:8080/booking/createbookings', bookings);
+            const createdBookings = response.data;
+            
+            // Update the bookings state with the created bookings
+            setBookings(createdBookings);
+            
+            console.log('Booking response:', createdBookings);
             setOpen(true); // Open modal on successful booking
         } catch (error) {
+            console.error('Error during booking submission:', error);
             setError('There was an error booking the bus. Please try again.');
         } finally {
             setLoading(false);
@@ -78,7 +104,11 @@ const BookingForm = () => {
         const randomDiscount = Math.floor(Math.random() * 11) + 10;
         setDiscount(randomDiscount);
         try {
-            await axios.put(`http://localhost:8080/booking/updateDiscount/${booking.id}`, null, { params: { discount: randomDiscount } });
+            const updatedBookings = await Promise.all(bookings.map(async (booking) => {
+                const response = await axios.put(`http://localhost:8080/booking/updateDiscount/${booking.id}`, null, { params: { discount: randomDiscount } });
+                return response.data;
+            }));
+            setBookings(updatedBookings);
         } catch (error) {
             console.error('Error updating discount:', error);
         }
@@ -96,52 +126,69 @@ const BookingForm = () => {
             <br/>
             {error && <div className="error-message">{error}</div>}
 
-            <Box
-                component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '100%' } }}
-                autoComplete="off"
-                onSubmit={handleSubmit}
-            >
-                <TextField
-                    id="name"
-                    name="name"
-                    label="Name"
-                    variant="outlined"
-                    value={booking.name}
-                    type="text"
-                    onChange={handleChange}
-                    required
-                    error={booking.name === ''}
-                    helperText={booking.name === '' ? 'Name is required' : ''}
-                />
-                <TextField
-                    id="age"
-                    name="age"
-                    label="Age"
-                    variant="outlined"
-                    value={booking.age}
-                    type="number"
-                    onChange={handleChange}
-                    required
-                    error={booking.age < 18}
-                    helperText={booking.age < 18 ? 'You must be at least 18' : ''}
-                />
-                <TextField
-                    id="phone"
-                    name="phone"
-                    label="Phone"
-                    variant="outlined"
-                    value={booking.phone}
-                    type="text"
-                    onChange={handleChange}
-                    required
-                    error={booking.phone.length < 10 || booking.phone.length > 15}
-                    helperText={booking.phone.length < 10 || booking.phone.length > 15 ? 'Invalid phone number' : ''}
-                />
-                <Button variant="contained" type="submit" disabled={loading}>
-                    {loading ? 'Booking...' : 'Book Bus'}
-                </Button>
-            </Box>
+            <div className="form-and-bookings">
+                <Box
+                    component="form"
+                    autoComplete="off"
+                    onSubmit={handleSubmit}
+                >
+                    <TextField
+                        id="name"
+                        name="name"
+                        label="Name"
+                        variant="outlined"
+                        value={currentBooking.name}
+                        type="text"
+                        onChange={handleChange}
+                        // required
+                        // error={currentBooking.name === ''}
+                        helperText={currentBooking.name === '' ? 'Name is required' : ''}
+                    />
+                    <TextField
+                        id="age"
+                        name="age"
+                        label="Age"
+                        variant="outlined"
+                        value={currentBooking.age}
+                        type="number"
+                        onChange={handleChange}
+                        // required
+                        // error={currentBooking.age < 18}
+                        helperText={currentBooking.age < 18 ? 'You must be at least 18' : ''}
+                    />
+                    <TextField
+                        id="phone"
+                        name="phone"
+                        label="Phone"
+                        variant="outlined"
+                        value={currentBooking.phone}
+                        type="text"
+                        onChange={handleChange}
+                        // required
+                        // error={currentBooking.phone.length < 10 || currentBooking.phone.length > 15}
+                        helperText={currentBooking.phone.length < 10 || currentBooking.phone.length > 15 ? 'Invalid phone number' : ''}
+                    />
+                    <Button variant="contained" onClick={addBooking} disabled={bookings.length >= 4}>
+                        Add Booking
+                    </Button>
+                    <Button variant="contained" type="submit" disabled={loading || bookings.length === 0} sx={{ mt: 2 }}>
+                        {loading ? 'Booking...' : 'Book Bus'}
+                    </Button>
+                </Box>
+
+                <div className="bookings-list">
+                    {bookings.map((booking, index) => (
+                        <div className="booking-card" key={index}>
+                            <Typography variant="body1"><strong>Name:</strong> {booking.name}</Typography>
+                            <Typography variant="body1"><strong>Age:</strong> {booking.age}</Typography>
+                            <Typography variant="body1"><strong>Phone:</strong> {booking.phone}</Typography>
+                            <Button variant="contained" color="error" style={{width:"fit-content"}} onClick={() => removeBooking(index)}>
+                                Remove
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             <Modal open={open} onClose={handleClose}>
                 <Box className="modal-box">

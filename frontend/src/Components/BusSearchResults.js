@@ -14,6 +14,7 @@ import axios from "axios";
 import "./StyleElement/BusSearchResults.css"; 
 
 function BusSearchResults() {
+    const today = new Date().toISOString().split('T')[0];
   const [open, setOpen] = useState(false);
   const [buses, setBuses] = useState([]);
   const [error, setError] = useState(null);
@@ -107,10 +108,11 @@ function BusSearchResults() {
         Filters
       </Typography>
       <Divider />
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom style={{textAlign:'center'}}>
         Sort By Cost
       </Typography>
-      <ListItem key="Low to High" disablePadding>
+      <Divider />
+      <ListItem key="Low to High" disablePadding >
         <ListItemButton onClick={(e) => handleSortChange(e, 'asc')}>
           <ListItemText primary="Low to High" />
         </ListItemButton>
@@ -123,7 +125,7 @@ function BusSearchResults() {
       </ListItem>
       <Divider />
       
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom style={{textAlign:'center'}}>
         Sort By Seats
       </Typography>
       <ListItem key="Most Available Seats" disablePadding>
@@ -151,39 +153,45 @@ function BusSearchResults() {
   return (
     <div className="bus-search-page">
       <div className="bus-results-container">
-        <h2>Bus Results</h2>
+        <h2 style={{textAlign:"center",marginTop:"3%"}}>Bus Results</h2>
         <br />
 
         <div className="search-bar">
           <input
             type="text"
             placeholder="From"
+            className="input-field location-input"
             value={from}
-            onChange={(e) => setFrom(e.target.value)}
+            onChange={(e) => setFrom(e.target.value.toLowerCase())}
           />
           <input
             type="text"
             placeholder="To"
+            className="input-field location-input"
             value={to}
-            onChange={(e) => setTo(e.target.value)}
+            onChange={(e) => setTo(e.target.value.toLowerCase())}
           />
           <input
             type="date"
             value={busDate}
+            className="input-field date-input"
+            min={today}
+
             onChange={(e) => setBusDate(e.target.value)}
           />
-          <button onClick={handleSearch}>Modify</button>
+          <button className="search-button" onClick={handleSearch}>Modify</button>
         </div>
 
-        <div className="filter-button" style={{width:"fit-content",marginLeft:"160px"}}>
-          <Button onClick={toggleDrawer(true)}>Filters</Button>
-        </div>
+        
         <Drawer open={open} onClose={toggleDrawer(false)}>
           {DrawerList}
         </Drawer>
 
         {buses.length > 0 ? (
           <div className="bus-cards-wrapper">
+            <div className="filter-button" style={{width:"fit-content"}}>
+          <Button onClick={toggleDrawer(true)}>Filters</Button>
+        </div>
             {buses.map((bus) => (
               <div className="bus-new-card" key={bus.id}>
                 <div className="bus-details">
@@ -203,12 +211,22 @@ function BusSearchResults() {
                   </div>
                 </div>
                 <span>
+                    {!isAuthenticated?(<>
                   <button
-                    className="book-bus-button"
-                    onClick={() => handleBook(bus)}
-                  >
-                    Book Bus
+                  className="book-bus-button-login"
+                  onClick={() => handleBook(bus)}>
+                    Login To Book
                   </button>
+                      </>):
+                      <>
+                      <button
+                      className="book-bus-button-book" 
+                      onClick={() => handleBook(bus)}>
+                        Book
+                      </button>
+                          </>
+
+                    }
                 </span>
               </div>
             ))}

@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface BookingService {
 
     Booking saveBooking(Booking booking);
+    List<Booking> saveMultipleBookings(List<Booking> bookings) throws Exception;
+
 
     Optional<Booking> getBookingById(int id);
 

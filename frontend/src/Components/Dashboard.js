@@ -65,7 +65,7 @@ const Dashboard = () => {
             <h2 className="dashboard-title">User Dashboard</h2>
             {userData && (
                 <div className="user-info-card">
-                    <h3>Welcome, {userData.name}</h3>
+                    <h3>Welcome, {userData.name.toUpperCase()}</h3>
                     <p><strong>Email:</strong> {userData.email}</p>
                     <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
                     <p><strong>Role:</strong> {userData.role}</p>

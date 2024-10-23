@@ -25,6 +25,16 @@ public class BookingController {
         Booking savedBooking = bookingService.saveBooking(booking);
         return ResponseEntity.ok(savedBooking);
     }
+
+    @PostMapping("/createbookings")
+    public ResponseEntity<List<Booking>> createMultipleBookings(@RequestBody List<Booking> bookings) {
+        try {
+            List<Booking> savedBookings = bookingService.saveMultipleBookings(bookings);
+            return ResponseEntity.ok(savedBookings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 //nouse
     @GetMapping("/getbooking/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable int id) {

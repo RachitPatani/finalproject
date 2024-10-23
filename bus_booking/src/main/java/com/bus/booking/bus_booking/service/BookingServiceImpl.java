@@ -105,7 +105,8 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingDTO> getBookingsWithBusDetailsByUserId(int userId) {
         return bookingRepository.findBookingsWithBusDetailsByUserId(userId);
     }
-
+    
+    @Override
     public Booking updateBookingDiscount(int bookingId, int discount) {
         Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
         if (optionalBooking.isPresent()) {
@@ -114,5 +115,15 @@ public class BookingServiceImpl implements BookingService {
             return bookingRepository.save(booking);
         }
         throw new EntityNotFoundException("Booking not found with id " + bookingId);
+    }
+
+    @Override
+    @Transactional
+    public List<Booking> saveMultipleBookings(List<Booking> bookings) throws Exception {
+        try {
+            return bookingRepository.saveAll(bookings);
+        } catch (Exception e) {
+            throw new Exception("Error saving bookings: " + e.getMessage());
+        }
     }
 }
